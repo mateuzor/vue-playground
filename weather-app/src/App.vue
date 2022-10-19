@@ -3,14 +3,15 @@
     <weatherApp/>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import weatherApp from './components/weather-app.vue'
-export default {
+export default defineComponent( {
  name: 'App',
  components: {
   weatherApp
  }
-}
+});
 </script>
 <style>
 </style>
