@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     async fetchWeather(e) {
+      console.log(typeof e);
       if (e.key == "Enter") {
         let response = await axios.get(
           `${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`
