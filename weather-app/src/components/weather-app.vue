@@ -19,21 +19,22 @@
     </div>
   </div>
 </template>
-<script>
+<script lang="ts">
 import axios from "axios";
-export default {
+import {defineComponent} from 'vue'
+import WeatherType from '../types/Weather'
+export default defineComponent({
   data() {
     return {
       api_key: "28953c7f3c1d3e66c812efd326e55f9d",
       url_base: "https://api.openweathermap.org/data/2.5/",
       weather_icon: "http://openweathermap.org/img/wn/",
       query: "",
-      weather: {},
+      weather: {} as WeatherType
     };
   },
   methods: {
-    async fetchWeather(e) {
-      console.log(typeof e);
+    async fetchWeather(e: KeyboardEvent) {
       if (e.key == "Enter") {
         let response = await axios.get(
           `${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`
@@ -41,7 +42,7 @@ export default {
         this.setResults(response.data);
       }
     },
-    setResults(returnedResponse) {
+    setResults(returnedResponse: WeatherType) {
       this.weather = returnedResponse;
     },
     todaysDate() {
@@ -57,7 +58,7 @@ export default {
       return `${month} ${date} ${day} ${year}`;
     },
   },
-};
+});
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700;900&display=swap");
