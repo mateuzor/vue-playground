@@ -27,6 +27,7 @@ export default defineComponent({
             }
         },
         setResults(returnedResponse: WeatherType) {
+            console.log(returnedResponse);
             this.weather = returnedResponse;
             this.$emit('weather', this.weather);
         },

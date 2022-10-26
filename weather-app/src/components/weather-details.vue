@@ -1,5 +1,6 @@
 <template>
      <div class="weather-info" v-if="weather.main">
+      <ChangeWeatherComponent @temperatureType="getTemperatureType"/>
         <div class="location-box">
           <div class="location">
             {{weather?.name}},{{weather.sys?.country }}
@@ -7,23 +8,38 @@
           <div class="date">{{ todaysDate() }}</div>
         </div>
         <div class="weather-box">
-          <div class="temp">{{ Math.round(weather.main?.temp) }}°c</div>
+          <div class="temp">{{ formatTemperature(temperatureType,weather.main?.temp)}}</div>
           <div class="weather">{{ weather.weather?.[0].main }}</div>
+          <img :src="`http://openweathermap.org/img/wn/${weather.weather?.[0].icon}@2x.png`" alt="">
         </div>
       </div>
 </template>
 <script lang="ts">
 import WeatherType from '@/types/Weather';
+import ChangeWeatherComponent from './change-weather-component.vue';
 import {defineComponent,PropType} from 'vue'
 export default defineComponent({
   name: 'WeatherDetails',
+  components:{ChangeWeatherComponent},
+  data() {
+    return {
+      temperatureType: "Fahrenheit" as string,
+    };
+  },
   props: {
     weather: {
       type: Object as PropType<WeatherType>,
       required: true
     },
   },
-  methods: {
+  methods: { getTemperatureType(temperatureType: string) {
+      this.temperatureType = temperatureType 
+    },
+    formatTemperature(type:string, value:number){
+      return type === 'Fahrenheit' ? 
+          `${Math.round(value )}°C`: 
+          `${Math.round(value * 1.8 + 34)}°F`
+    },
     todaysDate() {
             const months = [
                 "Jan",
