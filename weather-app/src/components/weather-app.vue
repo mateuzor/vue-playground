@@ -1,5 +1,5 @@
 <template>
-  <div class="weather-container">
+  <div class="weather-container"  :style="{ backgroundImage: `url(${require('@/assets/conditions/' + backgroundImage)})` }">
     <div class="weather-wrap">
       <SearchComponent @weather="getWeather" />
       <WeatherDetails :weather="weather" />
@@ -16,13 +16,39 @@ export default defineComponent({
   components: { WeatherDetails, SearchComponent },
   data() {
     return {
-      weather: {} as WeatherType
+      weather: {} as WeatherType,
+      backgroundImage:"background.png"
     };
   },
   methods: {
     getWeather(weather: WeatherType) {
       this.weather = weather 
+      this.generateBackgroundImage(weather.weather[0].icon)
     },
+    generateBackgroundImage(icon:string) {
+      switch (icon) {
+        case '03n':
+          this.backgroundImage = 'clouds.jpeg'
+          break;
+        case '11d':
+          this.backgroundImage = 'thunderstorm.jpeg'
+          break;
+        case '09d':
+          this.backgroundImage = 'drizzle.jpeg'
+          break;
+        case '13d':
+          this.backgroundImage = 'snow.jpeg'
+          break;
+        case '01d':
+          this.backgroundImage = 'clear.jpeg'
+          break;
+        case '02d':
+          this.backgroundImage = 'clouds.jpeg'
+          break;
+        default:
+          break;
+      }
+    }
   },
 });
 </script>
@@ -37,7 +63,6 @@ export default defineComponent({
 }
 
 .weather-container {
-  background-image: url("../assets/background.png");
   background-size: cover;
   background-position: center;
   transition: 0.4s;
