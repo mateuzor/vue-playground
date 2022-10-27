@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import axios from "axios";
 import WeatherType from '../types/Weather'
-import {defineEmits, ref} from 'vue'
+import { defineEmits, ref } from 'vue'
 const api_key = ref("28953c7f3c1d3e66c812efd326e55f9d")
 const url_base = ref("https://api.openweathermap.org/data/2.5/")
 const query = ref("")
@@ -15,14 +15,14 @@ let weather = ref({} as WeatherType)
 const emit = defineEmits(['weather'])
 const fetchWeather = (async (e: KeyboardEvent) => {
     if (e.key == "Enter") {
-                let response = await axios.get(`${url_base.value}weather?q=${query.value}&units=metric&APPID=${api_key.value}`);
-                setResults(response.data);
-            }
+        let response = await axios.get(`${url_base.value}weather?q=${query.value}&units=metric&APPID=${api_key.value}`);
+        setResults(response.data);
+    }
 })
-const setResults =  (returnedResponse: WeatherType)  =>{
+const setResults = (returnedResponse: WeatherType) => {
     console.log(returnedResponse);
-            weather = ref(returnedResponse);
-            emit('weather', weather.value);   
+    weather = ref(returnedResponse);
+    emit('weather', weather.value);
 }
 </script>
 <style>
